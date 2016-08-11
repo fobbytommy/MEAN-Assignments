@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Button Fun Assignment</title>
+		<script type="text/javascript" src="./jquery.min.js"></script>
+		<style type="text/css">
+			* {
+				border: 0;
+			}
+			.button {
+				background-color: blue;
+				padding: 10px;
+				color: white;
+				border: 1px solid black;
+			}
+		</style>
+	</head>
+	<body>
+		<button class="button">Button</button>
+		<script type="text/javascript">
+
+			function callback(color) {
+				$(".button").click(function(){
+					if (color == "rgb(0, 0, 255)") {
+						$(this).css("background-color", "red");
+					}
+					else {
+						$(this).css("background-color", "blue");
+					}
+					color = $(this).css("background-color");
+				});
+
+				$(".button").hover(function(){
+					$(this).css("background-color", "green");
+				}, function(){
+					$(this).css("background-color", color);
+				});
+			}
+
+
+
+			$(document).ready(function(){
+				// alert("Hello!");
+
+				var color = $(".button").css("background-color");
+
+				callback(color);
+
+
+				document.onkeydown = function(a) {
+					if(a.keyCode == 13){
+						console.log("enter has been pressed!");
+						$('body').append("\n<button class='button'>Button</button>");
+						callback(color);
+					}
+				}
+
+
+			});
+
+
+
+		</script>
+
+	</body>
+</html>
