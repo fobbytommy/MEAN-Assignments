@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hunting Github Assignment</title>
+		<script type="text/javascript" src="./jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("form").submit(function(){
+					var user = $(this).children("#user").val();
+					var url = "https://api.github.com/users/" + user;
+
+					$.get(url, displayName);
+
+					return false;
+				});
+
+				function displayName(data) {
+					$('#result').html("<h1>" + data.name + "</h1>");
+				}
+
+			});
+		</script>
+	</head>
+	<body>
+		<form>
+			<input type="text" id="user">
+			<input type="submit" value="Get user's name">
+		</form>
+		<div id="result"></div>
+	</body>
+</html>
