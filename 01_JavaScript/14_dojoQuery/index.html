@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>DojoQuery</title>
+		<script type="text/javascript" src="./dojoQuery.js"></script>
+	</head>
+	<body>
+		<button id="hello">Click me!</button>
+		<script type="text/javascript">
+			$Dojo("#hello").click(function() { console.log("The button was clicked!") });
+			$Dojo("#hello").hover(function() { console.log("Hovered On!") }, function() { console.log("Hovered Out!") });
+		</script>
+	</body>
+</html>
