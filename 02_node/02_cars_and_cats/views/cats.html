@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Cars and Cats</title>
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			#adjust1, #adjust2, #adjust3 {
+				width: 300px;
+				height: 230px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<h1>Cars and Cats <small>Cats</small></h1>
+				<p class="text-center">
+					<a class="btn btn-primary" href="/" role="button">Main</a>
+					<a class="btn btn-info" href="/cars" role="button">Cars</a>
+					<a class="btn btn-info active" href="/cats" role="button">Cats</a>
+					<a class="btn btn-success" href="/cars/new" role="button">Add New Car</a>
+				</p>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<img id="adjust1" class="img-rounded center-block" src="/static/img/cat_1.jpg" height="350" alt="cat_1" />
+				</div>
+				<div class="col-md-4">
+					<img id="adjust2" class="img-rounded center-block" src="/static/img/cat_2.jpg" height="350" alt="cat_2" />
+				</div>
+				<div class="col-md-4">
+					<img id="adjust3" class="img-rounded center-block" src="/static/img/cat_3.jpg" alt="cat_3" />
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
