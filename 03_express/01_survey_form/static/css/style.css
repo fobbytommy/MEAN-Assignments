@@ -1,0 +1,22 @@
+#form_container {
+	margin-top: 50px;
+	width: 75em;
+	height: 29em;
+	padding: 40px;
+	background-color: lightblue;
+	border: 5px dashed blue;
+	border-radius: 10px;
+}
+
+#result_container {
+	margin-top: 50px;
+	width: 50em;
+	padding: 30px;
+	background-color: lightblue;
+	border: 5px dashed blue;
+	border-radius: 10px;
+}
+
+dt, dd {
+	font-size: 1.5em;
+}

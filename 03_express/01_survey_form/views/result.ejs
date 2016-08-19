@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Survey Form | Result</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<div class="container">
+			<div id="result_container">
+				<dl class="dl-horizontal">
+					<dt>Name</dt>
+					<dd><%= info.name %></dd>
+					<dt>Location</dt>
+					<dd><%= info.location %></dd>
+					<dt>Language</dt>
+					<dd><%= info.language %></dd>
+					<dt>Comment</dt>
+					<dd><%= info.comment %></dd>
+				</dl>
+				<a class="btn btn-info btn-lg" href="/" role="button">Go Back</a>
+			</div>
+		</div>
+	</body>
+</html>
