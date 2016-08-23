@@ -1,0 +1,17 @@
+#epic_button {
+	padding: 30px 40px;
+	font-size: 2em;
+}
+
+p {
+	font-size: 1.6em;
+}
+
+.reset_div {
+	margin-top: 80px;
+}
+
+#reset_button {
+	padding: 16px 24px;
+	font-size: 1.2em;
+}

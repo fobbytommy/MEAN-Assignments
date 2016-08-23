@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Epic Button Game</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript">
+			$(document).ready( function(){
+
+				var socket = io.connect();
+
+				// check current count when the client visits the page
+				socket.emit('check_count');
+				socket.on('updated_count', function(data){
+					$('#count').text(data.response);
+				});
+
+
+				// when epic button is clicked, the client emits to the server
+				$('#epic_button').click(function(){
+					socket.emit('epic_button_clicked');
+				});
+				// the server responses by giving the client a updated count, which ALL THE USERS listen in and update the count in HTML.
+				socket.on('counting_time', function(data){
+					// console.log(data.response);
+					$('#count').text(data.response);
+				});
+
+
+				// when reset button is clicked, the client emits to the server
+				$('#reset_button').click(function(){
+					socket.emit('reset_button_clicked');
+				})
+				// the server responses by giving the client a reset count to 0, which ALL THE USERS listen in and update the count back to zero in HTML.
+				socket.on('reset_count', function(data){
+					$('#count').text(data.response);
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron">
+				<h2 class="text-center">The button has been pushed <span id="count" class="label label-info"></span> time(s)</h2>
+			</div>
+			<div class="text-center">
+				<p class="text-center">
+					Push the button to update the count!
+				</p>
+				<button id="epic_button" type="button" class="btn btn-primary">Push the epic button</button>
+			</div>
+			<div class="text-right reset_div">
+				<button id="reset_button" type="button" class="btn btn-danger">Reset Count</button>
+			</div>
+	</body>
+</html>
