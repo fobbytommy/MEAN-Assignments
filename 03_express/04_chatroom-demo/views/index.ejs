@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Chatroom - DEMO</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<!-- <script type="text/javascript" src="js/modal.js"></script> -->
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript">
+			$(document).ready( function() {
+
+				var socket = io.connect();
+				var name;
+				var status = false;
+
+
+				$('#myModal').modal('show');
+				$('form').submit(function(){
+					name = $('#user_name').val();
+					// step 3
+					socket.emit('got_a_new_user', { name: name });
+					$('#myModal').modal('hide');
+					status = true;
+					return false;
+				});
+
+				// step 4: existing_users
+				socket.on('existing_users', function(data){
+					for (var user_id in data) {
+						var sliced_id = user_id.slice(2, user_id.length);
+						var html_str = "<div class='thumbnail col-sm-4 col-md-3' id='" + sliced_id + "'><h3>" + data[user_id] + "</h3></div>";
+						$('#users').append(html_str).hide().fadeIn(1000);
+					}
+				});
+
+				// step 5
+				socket.on('new_user', function(data){
+					if (status) {
+						var sliced_id = data.user_id.slice(2, data.user_id.length);
+						var html_str = "<div class='thumbnail col-sm-4 col-md-3' id='" + sliced_id + "'><h3>" + data.name + "</h3></div>";
+
+						$('#users').append(html_str).hide().fadeIn(1000);
+					}
+				});
+
+				// step 6: disconnect
+				$(window).bind("beforeunload", function() {
+					socket.emit('disconnect');
+				})
+
+				// step 7: disconnect user
+				socket.on('disconnect_user', function(data) {
+					var sliced_id = data.user_id.slice(2, data.user_id.length);
+					var user_id = "#" + sliced_id;
+				 	$(user_id).fadeOut(1000, function() {
+						$(this).remove();
+					});
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div id="users" class="row"></div>
+		</div>
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+			<div id="myInput" class="modal-dialog" role="document">
+				<div  class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Chatroom - DEMO</h4>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="user_name">Enter your chatroom name!</label>
+								<input type="text" class="form-control" id="user_name" placeholder="Tommy" required>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">Enter</button>
+							</div>
+						</form>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	</body>
+</html>
