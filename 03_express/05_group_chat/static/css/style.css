@@ -1,0 +1,22 @@
+textarea {
+	resize: none;
+}
+.chatroom-body {
+	height: 400px;
+	padding: 20px 33px;
+}
+.users_list {
+	height:320px;
+	overflow-y: scroll;
+}
+.chat-list {
+	padding: 0;
+}
+
+.chat_dashboard {
+	padding: 0;
+}
+.chat-log {
+	height:320px;
+	overflow-y: scroll;
+}

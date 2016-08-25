@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Group Chat</title>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript">
+			$(document).ready( function() {
+
+				var socket = io.connect();
+				var user_name;
+				var label;
+				var login_status = false;
+				var scrollDiv = document.getElementById("chatting-zone");
+
+				$('#myModal').modal('show');
+
+				// step 2
+				$('#user_name_form').submit( function() {
+					user_name = $('#user_name').val();
+					$('#myModal').modal('hide');
+					// step 3
+					socket.emit('got_a_new_user', { user_name: user_name });
+					login_status = true;
+					return false;
+				});
+
+				// step 4.2.1
+				socket.on('existing_users', function(data) {
+					for (var user_id in data) {
+						var sliced_id = user_id.slice(2, user_id.length);
+						// console.log(sliced_id, data[user_id][0], data[user_id][1]);
+						var html_str = "<p id='" + sliced_id + "'><span class='label label-" + data[user_id][1] + "'>" + data[user_id][0] + "</span></p>"
+						// console.log(html_str);
+						$('.users_list').append(html_str);
+					}
+				});
+
+				// step 4.2.1 existing_messages
+				socket.on('existing_messages', function(data) {
+					for (var i = 0, j = data.messages.length; i < j; i++) {
+						var html_str_update_chat = "<p><span class='label label-" + data.messages[i][1] + "'>" + data.messages[i][2] + "</span> " + data.messages[i][3] + "</p>"
+
+						$('.chat-log').append(html_str_update_chat);
+					}
+					scrollDiv.scrollTop = scrollDiv.scrollHeight;
+				});
+
+				// step 5
+				socket.on('new_user_join', function(data) {
+					if (login_status) {
+						// step 5.1
+						var sliced_id = data.user_id.slice(2, data.user_id.length);
+						var html_str_user_add = "<p id='" + sliced_id + "'><span class='label label-" + data.label + "'>" + data.user_name + "</span></p>"
+						$('.users_list').append(html_str_user_add);
+						label = data.label;
+						//step 5.2
+						var html_str_joined_chat = "<p><span class='label label-" + data.label + "'>" + data.user_name + "</span> <strong> has joined the chatroom!</strong></p>"
+						$('.chat-log').append(html_str_joined_chat);
+						scrollDiv.scrollTop = scrollDiv.scrollHeight;
+					}
+				});
+
+				// step 6
+				$('#message_form').submit(function(){
+					var message = $('#message').val();
+					$('#message').val("");
+					socket.emit("new_message", { user_name: user_name, message: message })
+					return false;
+				});
+
+				// step 8
+				socket.on('add_a_message', function(data) {
+					var html_str_update_chat = "<p><span class='label label-" + data.message[1] + "'>" + data.message[2] + "</span> " + data.message[3] + "</p>"
+
+					$('.chat-log').append(html_str_update_chat);
+					scrollDiv.scrollTop = scrollDiv.scrollHeight;
+				});
+
+				// step 9 - "disconnect"
+				$(window).bind('beforeunload', function(){
+					if (login_status) {
+						socket.emit('disconnect');
+					}
+				});
+
+				// step 11 - "disconnect_user"
+				socket.on('disconnect_user', function(data) {
+					var sliced_id = data.user_id.slice(2, data.user_id.length);
+					// remove user name from the list
+					$('#' + sliced_id).remove();
+
+					// add message that the user left
+					var html_str_left_chat = "<p><span class='label label-" + data.user_label + "'>" + data.user_name + "</span> <strong> has left the chatroom!</strong></p>"
+					$('.chat-log').append(html_str_left_chat);
+					scrollDiv.scrollTop = scrollDiv.scrollHeight;
+
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="chatroom panel panel-primary">
+				<div class="panel-heading">
+    				<h3 class="panel-title">Chatroom</h3>
+  				</div>
+				<div class="row panel-body chatroom-body">
+					<div class="col-sm-12 col-md-9 chat_dashboard panel panel-danger">
+						<div class="panel-heading">
+		    				<h5 class="panel-title">Chat log</h5>
+		  				</div>
+						<div id="chatting-zone" class="panel-body chat-log">
+
+						</div>
+					</div>
+					<div class="chat-list hidden-xs hidden-sm col-md-3 panel panel-info">
+						<div class="panel-heading">
+		    				<h5 class="panel-title">User list</h5>
+		  				</div>
+						<div class="panel-body users_list">
+						</div>
+					</div>
+  				</div>
+				<div class="type_message panel-footer">
+					<form id="message_form">
+						<div class="form-group">
+							<input type="text" class="form-control" id="message" placeholder="enter your message here" required>
+						</div>
+  						<div class="modal-footer">
+  							<button type="submit" class="btn btn-primary">Send</button>
+  						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static"
+	    data-keyboard="false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Chatroom</h4>
+				</div>
+				<div class="modal-body">
+					<form id="user_name_form">
+						<div class="form-group">
+							<label for="user_name">Put your user name!</label>
+							<input type="text" class="form-control" id="user_name" placeholder="fobbytommy" required>
+						</div>
+  						<div class="modal-footer">
+  							<button type="submit" class="btn btn-primary">Enter the Chatroom!</button>
+  						</div>
+					</form>
+				</div>
+			</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	</body>
+</html>
