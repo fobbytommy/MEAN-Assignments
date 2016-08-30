@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Welcome | QuoteDojo</title>
+		<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+	</head>
+	<body>
+
+		<div class="site-wrapper">
+
+	      <div class="site-wrapper-inner">
+
+	        <div class="cover-container">
+
+	          <div class="masthead clearfix">
+	            <div class="inner">
+	              <h3 class="masthead-brand">QuotingDojo</h3>
+	              <nav>
+	                <ul class="nav masthead-nav">
+	                  <li class="active"><a href="/">Add a Quote</a></li>
+	                  <li><a href="/quotes">Skip to Quotes</a></li>
+				  </ul>
+	              </nav>
+	            </div>
+	          </div>
+
+	          <div class="inner cover">
+	            <h1 class="cover-heading">Welcome to QuotingDojo.</h1>
+				<form class="form-horizontal" action='/quotes' method='post'>
+					<div class="form-group">
+						<label for="name">Your name</label>
+						<input type="text" class="form-control" name="name" id="name" placeholder="Tommy" required>
+					</div>
+					<div class="form-group">
+				  	  	<label for="quote">Your quote</label>
+				  	  	<textarea id="quote" name="quote" class="form-control" placeholder="Cerca Trova" rows="3" required></textarea>
+				    </div>
+   					<button type="submit" class="btn btn-primary">Submit a New Quote!</button>
+				</form>
+	          </div>
+
+	          <div class="mastfoot">
+	            <div class="inner">
+	              <p>Completed by <strong>Tommy Oh</strong></p>
+	            </div>
+	          </div>
+
+	        </div>
+
+	      </div>
+
+	    </div>
+
+
+	</body>
+</html>
