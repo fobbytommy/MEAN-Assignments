@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Message Board</title>
+		<style type="text/css">
+			.container {
+				width: 700px;
+				margin: 0 auto;
+			}
+			label {
+				display: block;
+			}
+			textarea {
+				resize: none;
+			}
+			.message_submit {
+				float: right;
+				margin-right: 215px;
+			}
+			.message_form {
+				padding: 0 30px 30px 30px;
+			}
+			.comment_form {
+				margin-left: 100px;
+			}
+			.errors {
+				color: red;
+			}
+			p, h3 {
+				word-wrap: break-word;
+			}
+			.comment {
+				margin-left: 100px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div class="container">
+			<h1>The Dojo Message Board</h1>
+			<hr>
+			<% if (typeof(errors) != 'undefined' ) { %>
+				<ul class="errors">
+					<% for (var x in errors) { %>
+						<li><%= errors[x].message %></li>
+					<% } %>
+				</ul>
+			<% } %>
+			<form class="message_form" action="/message" method="post">
+				<div>
+					<label for="name">Name:</label>
+					<input type="text" name="name" id="name">
+				</div>
+				<div>
+					<label for="message">Message:</label>
+					<textarea name="message_text" id="message" rows="5" cols="100"></textarea>
+				</div>
+				<div class="message_submit">
+					<input type="submit" value="Post message">
+				</div>
+			</form>
+			<% for (var i in messages) { %>
+				<div class="message">
+					<h3>Name: <%= messages[i].name %></h3>
+					<h3>Message: <%= messages[i].message_text %></h3>
+					<% if (messages[i]._comments.length > 0) { %>
+						<% for (var j = 0; j < messages[i]._comments.length; j++) { %>
+							<div class="comment">
+								<h5>Name: <%= messages[i]._comments[j].name %></h5>
+								<h5>Comment: <%= messages[i]._comments[j].comment_text %></h5>
+							</div>
+						<% } %>
+					<% } %>
+					<form class="comment_form" action="/message/<%= messages[i]._id %>" method="post">
+						<div>
+							<label for="name">Name:</label>
+							<input type="text" name="name" id="name">
+						</div>
+						<div>
+							<label for="comment">Comment:</label>
+							<textarea name="comment_text" id="comment" rows="4" cols="80"></textarea>
+						</div>
+						<div class="comment_submit">
+							<input type="submit" value="Post comment">
+						</div>
+					</form>
+				</div>
+			<% } %>
+			
+		</div>
+	</body>
+</html>
