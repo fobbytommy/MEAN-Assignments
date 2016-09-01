@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Edit an Animal</title>
+		<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<div class="header clearfix">
+				<nav>
+					<ul class="nav nav-pills pull-right">
+						<li role="presentation"><a href="/">Display</a></li>
+						<li role="presentation"><a href="/animals/new">Add New</a></li>
+					</ul>
+				</nav>
+				<h3 class="text-muted">Animal Dashboard</h3>
+			</div>
+
+	      <div class="row marketing">
+	        <div class="col-lg-12">
+				<h3 class="text-center bg-info">Update an Existing Animal</h1>
+				<form class="form-horizontal" action="/animals/<%= animal[0]._id %>" method="POST">
+					<div class="form-group">
+						<label for="name" class="col-sm-2 control-label">Name</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="name" id="name" value="<%= animal[0].name %>" placeholder="<%= animal[0].name %>" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="nickname" class="col-sm-2 control-label">Nickname</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" name="nickname" id="nickname" value="<%= animal[0].nickname %>" placeholder="<%= animal[0].nickname %>" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="height" class="col-sm-2 control-label">Height (in.)</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" name="height" id="height" value="<%= animal[0].height %>" placeholder="<%= animal[0].height %>" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="weight" class="col-sm-2 control-label">Weight (lb.)</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" name="weight" id="weight" value="<%= animal[0].weight %>" placeholder="<%= animal[0].weight %>" required>
+						</div>
+					</div>
+    				<div class="form-group">
+    					<div class="col-sm-offset-2 col-sm-10">
+      						<button type="submit" class="btn btn-success">Update!</button>
+    					</div>
+  					</div>
+				</form>
+			</div>
+	      </div>
+
+	      <footer class="footer">
+	        <p>&copy; 2016 Tommy Oh, Inc.</p>
+	      </footer>
+
+	    </div> <!-- /container -->
+
+
+
+	</body>
+</html>
