@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Controller and Directives</title>
+		<script type="text/javascript" src="./angular.min.js"></script>
+		<script type="text/javascript">
+			var myAppModule = angular.module('myApp', []);
+
+			myAppModule.controller('foodController', ['$scope', function($scope) {
+
+				$scope.list_of_food = [];
+
+				$scope.add_food = function () {
+					$scope.list_of_food.push($scope.favorite_food);
+					$scope.favorite_food = [];
+				}
+
+
+			}]);
+		</script>
+	</head>
+	<body>
+		<div ng-controller="foodController">
+			<form>
+				<label for="favorite_food">Favorite Food</label>
+				<input type="text" id="favorite_food" ng-model="favorite_food">
+				<input type="submit" value="Add Food" ng-click="add_food()">
+			</form>
+			<p>
+				Currently Type:
+				<span ng-if="favorite_food" ng-bind="favorite_food"></span>
+			</p>
+			<form>
+				<input type="text" placeholder="filter..." ng-model="item">
+			</form>
+			<ul>
+				<li ng-repeat="food in list_of_food | filter: myFilter">{{ food }}</li>
+			</ul>
+		</div>
+	</body>
+</html>
