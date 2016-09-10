@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Products And Orders</title>
+		<script type="text/javascript" src="./angular.min.js"></script>
+	</head>
+	<body>
+		<div ng-controller="productsController">
+			<h2>Products Controller</h2>
+			<form ng-submit="createProduct()">
+				<p>
+					<label for="name">Product Name</label>
+					<input type="text" id="name" ng-model="newProduct.name">
+				</p>
+				<p>
+					<label for="price">Product Price</label>
+					<input type="number" step="0.01" id="price" ng-model="newProduct.price">
+					<input type="submit" value="Add Product">
+				</p>
+			</form>
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="product in products track by $index">
+					<tr>
+						<td>{{ product.name }}</td>
+						<td>{{ product.price | currency }}</td>
+						<td>
+							<button ng-click="deleteProduct($index)">Delete Product</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div ng-controller="ordersController">
+			<h2>Orders Controller</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Price</th>
+						<th>Qty Available</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="product in products track by $index">
+					<tr>
+						<td>{{ product.name }}</td>
+						<td>{{ product.price | currency }}</td>
+						<td>{{ product.quantity }}</td>
+						<td>
+							<button ng-click="buyProduct($index)">Buy</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<script type="text/javascript">
+			var myAppModule = angular.module("myApp", []);
+
+			myAppModule.factory("productsFactory", ['$http', function($http) {
+				var factory = {};
+				var products = [];
+
+				factory.index = function (callback) {
+					callback(products);
+				}
+
+				factory.create = function (newProduct, callback) {
+					newProduct.quantity = 50;
+					products.push(newProduct);
+					callback(products);
+				}
+
+				factory.delete = function (idx, callback) {
+					products.splice(idx, 1);
+					callback(products);
+				}
+
+				factory.buy = function (idx, callback) {
+					if (products[idx].quantity > 0) {
+						products[idx].quantity -= 1;
+					}
+					callback(products);
+				}
+
+				return factory;
+			}]);
+
+			myAppModule.controller("productsController", ["$scope", "productsFactory", function($scope, productsFactory) {
+				function getProducts(data){
+					$scope.products = data;
+					$scope.newProduct = {};
+				}
+
+				$scope.index = function () {
+					productsFactory.index(getProducts);
+				}
+				$scope.index();
+
+				$scope.createProduct = function () {
+					productsFactory.create($scope.newProduct, getProducts);
+				}
+
+				$scope.deleteProduct = function(idx) {
+					productsFactory.delete(idx, getProducts);
+				}
+
+			}]);
+
+			myAppModule.controller("ordersController", ["$scope", "productsFactory", function($scope, productsFactory) {
+				function getProducts(data){
+					$scope.products = data;
+					$scope.newProduct = {};
+				}
+
+				// $scope.index = function () {
+				// 	productsFactory.index(getProducts);
+				// }
+
+				// $scope.index();
+
+				productsFactory.index(getProducts);
+
+				$scope.buyProduct = function (idx) {
+					productsFactory.buy(idx, getProducts);
+				}
+
+
+			}]);
+		</script>
+	</body>
+</html>
