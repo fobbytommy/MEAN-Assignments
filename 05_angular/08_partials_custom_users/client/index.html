@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Partials And Custom Users</title>
+		<script type="text/javascript" src="/static/angular.min.js"></script>
+		<script type="text/javascript" src="/static/angular-route.min.js"></script>
+		<script type="text/javascript" src="/static/main.js"></script>
+	</head>
+	<body>
+		<a href="#/">Customize Users</a> | <a href="#/list">User List</a>
+		<div ng-view="">
+			<!-- Partials will be loaded inside of this div -->
+		</div>
+	</body>
+</html>
