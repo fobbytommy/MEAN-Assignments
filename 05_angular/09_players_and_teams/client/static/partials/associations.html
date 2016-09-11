@@ -1,0 +1,33 @@
+<fieldset>
+	<legend>Associations</legend>
+	<form ng-submit="assignPlayerToTeam()">
+		<p>
+			<select ng-model="newAssoc.playerIdx" ng-init="newAssoc.playerIdx = 0">
+				<option ng-repeat="player in players" value="{{$index}}">{{ player.name }}</option>
+			</select>
+			<select ng-model="newAssoc.team" ng-init="newAssoc.team = teams[0].name">
+				<option ng-repeat="team in teams" value="{{ team.name }}">{{ team.name }}</option>
+			</select>
+			<input type="submit" value="Assign Player to Team">
+		</p>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Team</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="player in players">
+				<td>{{ player.name }}</td>
+				<td>{{ player.team }}</td>
+				<td>
+					<button ng-click="deletePlayerFromTeam($index)">Clear Assignment</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	{{ assignments }}
+</fieldset>

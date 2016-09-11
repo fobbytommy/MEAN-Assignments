@@ -1,0 +1,26 @@
+<fieldset>
+	<legend>Players</legend>
+	<form ng-submit="createPlayer()">
+		<p>
+			<label for="name">Player Name</label>
+			<input type="text" id="name" ng-model="newPlayer.name">
+			<input type="submit" value="Add Player">
+		</p>
+	</form>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="player in players track by $index">
+				<td>{{ player.name }}</td>
+				<td>
+					<button ng-click="deletePlayer($index)">Remove Player</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</fieldset>
