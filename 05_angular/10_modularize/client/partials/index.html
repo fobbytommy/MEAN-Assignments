@@ -1,0 +1,7 @@
+<div ng-repeat = "user in users track by $index">
+	<p>
+		Name: {{user.name}}
+		<button ng-click = "show($index)">Edit User</button>
+	</p>
+</div>
+<a ng-href = '#/new'><button>Create User</button></a>
