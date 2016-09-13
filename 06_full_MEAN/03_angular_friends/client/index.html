@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<title>Awesome Friends</title>
+		<script type="text/javascript" src="/angular/angular.min.js"></script>
+		<script type="text/javascript" src="/angular-route/angular-route.min.js"></script>
+		<script type="text/javascript" src="/assets/app.js"></script>
+	</head>
+	<body>
+		<h1>Friends</h1>
+		<button><a href="#/new">Add new friend</a></button>
+		<div ng-view="">
+			<!-- partial html to be rendered in this div -->
+		</div>
+	</body>
+</html>
