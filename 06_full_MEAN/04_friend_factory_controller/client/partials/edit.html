@@ -1,0 +1,17 @@
+<h2>Edit a Friend</h2>
+<form ng-submit=update()>
+	<p>
+		<label for="first_name">First Name</label>
+		<input type="text" name="first_name" id="first_name" ng-model="updateFriend.first_name">
+	</p>
+	<p>
+		<label for="last_name">Last Name</label>
+		<input type="text" name="last_name" id="last_name" ng-model="updateFriend.last_name">
+	</p>
+	<p>
+		<label for="birthday">Birthday</label>
+		<input type="date" name="birthday" id="birthday" ng-model="updateFriend.birthday" value="{{ friend.birthday | date:'yyyy-MM-dd'}}">
+	</p>
+	<input type="submit" value="Add a new friend">
+</form>
+<a href="#/">Go back to the list</a>

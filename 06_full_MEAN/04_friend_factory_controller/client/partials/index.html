@@ -1,0 +1,31 @@
+
+<div ng-controller="newController">
+	<h2>My Friends List</h2>
+	<button><a href="#/new">Add new friend</a></button>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Birthday</th>
+				<th>Show</th>
+				<th>Update</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="friend in friends track by $index">
+				<td>{{ friend.first_name }} {{ friend.last_name }}</td>
+				<td>{{ friend.birthday | date:'MM/dd/yyyy' }}</td>
+				<td>
+					<a href="#/show/{{ $index }}">show</a>
+				</td>
+				<td>
+					<a href="#/edit/{{ $index }}">edit</a>
+				</td>
+				<td>
+					<button ng-click="delete(friend._id)">delete</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
