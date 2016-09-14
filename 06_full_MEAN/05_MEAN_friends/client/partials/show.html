@@ -1,0 +1,18 @@
+<div class="row">
+	<div class="col-lg-12">
+		<h3 class="text-center">Show Friend</h3>
+		<h4 class="text-center"><small>(id: {{ friend._id }})</small></h4>
+		<div class="jumbotron">
+			<h5><small>First Name</small></h5>
+			<h2>{{ friend.first_name }}</h2>
+			<h5><small>Last Name</small></h5>
+			<h2>{{ friend.last_name }}</h2>
+			<h5><small>Birthday</small></h5>
+			<h2>{{ friend.birthday | date:'yyyy-MM-dd' }}</h2>
+			<h5><small>Added on</small></h5>
+			<h5>{{ friend.createdAt | date:"yyyy-MM-dd 'at' h:mma" }}</h5>
+			<h5><small>Updated on</small></h5>
+			<h5>{{ friend.updatedAt | date:"yyyy-MM-dd 'at' h:mma" }}</h5>
+		</div>
+	</div>
+</div>
