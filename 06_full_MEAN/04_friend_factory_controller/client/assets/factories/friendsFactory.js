@@ -48,7 +48,7 @@ app.factory("friendsFactory", ['$http', function($http) {
 			// But only if you only want to run the callback from the controller.
 		};
 		this.delete = function(id, callback) { // what parameters do we need?
-			$http.delete("/friends/" + id, {params: {id: id}}).then(function(returned_data) {
+			$http.delete("/friends/" + id).then(function(returned_data) {
 				friends = returned_data.data;
 				callback(friends);
 			})
