@@ -56,3 +56,32 @@ body {
 #registerErrorsDiv {
 	margin-bottom: 10px;
 }
+textarea {
+	resize: vertical;
+}
+.posts {
+	background-color: #ffcccc;
+	word-wrap: break-word;
+	border-radius: 5px;
+	padding: 15px;
+	margin-bottom: 15px;
+}
+.comments {
+	margin-left: 110px;
+}
+.comment {
+	background-color: #ccffcc;
+	padding: 15px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+.post {
+	background-color: #ccccff;
+	padding: 15px;
+	border-radius: 7px;
+	margin-bottom: 10px;
+}
+.comment_button {
+	padding-top: 59px;
+	padding-bottom: 59px;
+}

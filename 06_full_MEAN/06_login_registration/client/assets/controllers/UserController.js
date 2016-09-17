@@ -1,12 +1,12 @@
 app.controller('UserController', ['$scope', '$location', '$cookies', 'usersFactory', function($scope, $location, $cookies, usersFactory) {
+	$scope.newUser = {
+		password: "",
+		confirm_password: ""
+	};
 
 	// register: request to the factory
 	$scope.register = function() {
-		$scope.newUser = {
-			password: "",
-			confirm_password: ""
-		};
-
+		
 		// if password does not match, display warning and do not send the form.
 		if ($scope.newUser.password != $scope.newUser.confirm_password) {
 			$scope.match_fail = "Your password does not match the confirmed password! Please retype your passwords to match!";

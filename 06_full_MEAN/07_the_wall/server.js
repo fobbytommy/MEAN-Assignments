@@ -12,11 +12,12 @@ app.use( express.static( path.join( root, "bower_components" )));
 app.use( bodyParser.urlencoded({ extended: true}));
 app.use( bodyParser.json());
 
-// require mongoose and all the models
+// require mongoose configurations, connections, and models
 require('./server/config/mongoose');
 // require routes and invoke it using 'app'
 require('./server/config/routes')(app);
 
+// listen to the port
 app.listen( port, function() {
 	console.log(`listening on port ${ port }`);
 });

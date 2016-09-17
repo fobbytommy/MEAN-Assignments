@@ -2,7 +2,7 @@
 <html ng-app="app">
 	<head>
 		<meta charset="utf-8">
-		<title>The Wall</title>
+		<title>Full MEAN Wall</title>
 		<!-- load jquery -->
 		<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 		<!-- load bootstrap javascript -->
@@ -25,6 +25,8 @@
 		load controllers: HomeController, UserController
 		<script type="text/javascript" src="/assets/controllers/HomeController.js"></script>
 		<script type="text/javascript" src="/assets/controllers/UserController.js"></script> -->
+
+
 
 		<script type="text/javascript">
 			var app = angular.module('app', ['ngRoute', 'ngCookies', 'ngMessages']);
@@ -51,36 +53,44 @@
 			app.factory("usersFactory", ['$http', function($http) {
 
 				function UsersFactory() {
+
+					// register: factory making ajax call to the server for validation / creating a new user
 					this.register = function(newUser, callback) {
 						$http.post('/user/register', newUser).then(
 							function success(response) {
+
 								if (typeof(response.data.errors) != 'undefined') {
-									// we have error
+									// we have an errors (invalid form)
 									callback(false, response.data.errors);
 								}
 								else {
-									// successful
+									// form was valid & successfully registered!
 									callback(true, response.data);
 								}
+
 							},
 							function error(response) {
-
+								console.log('[Register: ERROR] registration failed: ' + response);
 							}
 						);
 					}
 
+					// Login: factory making an ajax call to the server to login a user.
 					this.login = function(loginUser, callback) {
 						$http.post('/user', loginUser).then(
 							function success(response) {
+
+								// if login was NOT successful
 								if (typeof(response.data.errors) != 'undefined') {
 									callback(false, response.data.errors);
 								}
-								else {
+								else { // else login was successful
 									callback(true, response.data);
 								}
+
 							},
 							function error(response) {
-
+								console.log('[Login: ERROR] login failed: ' + response);
 							}
 						);
 					}
@@ -89,18 +99,130 @@
 				return new UsersFactory();
 			}])
 
-			app.controller("WallController", ['$scope', '$location', '$cookies', function($scope, $location, $cookies) {
+
+			// wallsFactory
+			app.factory("wallsFactory", ['$http', function($http) {
+
+				function WallsFactory() {
+
+					this.index = function(callback) {
+						$http.get('/posts').then(
+							function success(response) {
+								callback(response.data);
+							},
+							function error(response) {
+								console.log('[Index: ERROR] failed to retrieve the posts from DB: ' + response);
+							}
+						);
+					}
+
+					this.create_post = function(username, newPost, callback) {
+						newPost.username = username;
+						$http.post('/posts', newPost).then(
+							function success(response) {
+								if (typeof(response.data.errors) != 'undefined') {
+									callback(false, response.data.errors);
+								}
+								else {
+									callback(true, response.data);
+								}
+							},
+							function error(response) {
+								console.log('[Create_post: ERROR] Creating a new post failed: ' + response);
+							}
+						);
+					}
+
+					this.create_comment = function(id, username, newComment, callback) {
+						// console.log(newComment);
+						// newComment.username = username;
+
+						var newComment = {
+											username: username,
+											comment: newComment
+										};
+						console.log(newComment);
+						$http.post('/comments/' + id, newComment).then(
+							function success(response) {
+								if (typeof(response.data.errors) != 'undefined') {
+									callback(false, response.data.errors);
+								}
+								else {
+									callback(true, response.data);
+								}
+							},
+							function error(response) {
+								console.log('[Create_comment: ERROR] Creating a new comment failed: ' + response);
+							}
+						);
+					}
+
+				}
+
+				return new WallsFactory();
+			}]);
+
+			// WallController
+			app.controller("WallController", ['$scope', '$location', '$cookies', 'wallsFactory', function($scope, $location, $cookies, wallsFactory) {
+				$scope.posts = [];
+
+				// callback function for populating the posts
+				var getPosts = function (posts) {
+					$scope.posts = posts;
+				};
+
 				(function() {
-					console.log($cookies.get('wall_username'));
 					if ($cookies.get('wall_username') == undefined) {
 						$location.url('/login');
 					}
+					else {
+						$scope.username = $cookies.get('wall_username');
+						// get all the posts!
+						wallsFactory.index(getPosts);
+					}
+
 				})();
 
+				// logout user, simply remove cookie and redirect to login page
 				$scope.logout = function() {
 					$cookies.remove("wall_username");
 					$location.url('/login');
 				}
+
+
+				$scope.create_post = function() {
+					wallsFactory.create_post($scope.username, $scope.newPost, function(status, response) {
+						if (status == false) {
+							$scope.postError = response;
+						}
+						else {
+							$scope.newPost = {};
+							$scope.postError = {};
+							$scope.posts.push(response);
+						}
+					});
+					console.log($scope.newPost);
+				}
+
+
+				$scope.create_comment = function(index) {
+					var id = $scope.posts[$scope.posts.length - 1 - index]._id;
+					var newComment = $scope.posts[$scope.posts.length - 1 - index].newComment;
+
+					wallsFactory.create_comment(id, $scope.username, newComment, function(status, response){
+						if (status == false) {
+							$scope.commentError = response;
+						}
+						else {
+							$scope.commentError = {};
+							delete $scope.posts[$scope.posts.length - 1 - index].newComment;
+							$scope.posts[$scope.posts.length - 1 - index]._comments.push(response);
+
+						}
+					});
+				}
+
+
 
 			}]);
 
@@ -110,21 +232,28 @@
 					confirm_password: ""
 				};
 
+				// register: request to the factory
 				$scope.register = function() {
-					console.log($scope.newUser);
+
+					// if password does not match, display warning and do not send the form.
 					if ($scope.newUser.password != $scope.newUser.confirm_password) {
 						$scope.match_fail = "Your password does not match the confirmed password! Please retype your passwords to match!";
 					}
-					else {
-						$scope.match_fail = ""
+					else { // else passwords match, send the form to the factory
+						// empty the matching password error
+						$scope.match_fail = "";
+
+						// send request to the factory to attempt registering a user
 						usersFactory.register($scope.newUser, function(status, response) {
-							if (status == false) {
+							if (status == false) { // false: validation errors on the registration form
+								// show errors to the user;
 								$scope.registerErrors = response;
-								// we have invalid error
 							}
 							else {
-								$scope.registerErrors = {};
-								$scope.newUser = {};
+								// registration completed, move client to the wall page!
+								$scope.newUser = {}; // clear registeration form
+								$scope.registerErrors = {}; // clear register errors
+								// set cookies of user's id for retrieving users information later on
 								$cookies.put('wall_username', response.username);
 								$location.url('/wall');
 							}
@@ -133,15 +262,19 @@
 					}
 				}
 
+				// login: request to the factory
 				$scope.login = function() {
 					usersFactory.login($scope.loginUser, function(status, response) {
 						if (status == false) {
-							$scope.loginError = response;
+							// login failed, send the error message to the client
+							$scope.loginError = response; // empty the password
 							$scope.loginUser.password = "";
 						}
 						else {
-							$scope.loginUser = {};
-							$scope.loginError = "";
+							// login successed! direct the user to the home page
+							$scope.loginUser = {}; // clear login form
+							$scope.loginError = ""; // clear login error
+							// set cookies of user's id for retrieving users information later on
 							$cookies.put('wall_username', response.username);
 							$location.url('/wall');
 						}

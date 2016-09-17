@@ -42,7 +42,12 @@ var userSchema = new mongoose.Schema({
 						message: "'{VALUE}' is not a valid last name. Please use alphabets only! (No spaces, no symbols, no numbers, etc.)"
 					}
 				},
-	username:	{
+	// literal username storage. with client's caps (e.g. foBbyToMmy)
+	username: 	{
+					type: String
+				},
+	// for verification purpose. without client's caps (e.g. fobbytommy)
+	username_lowercase:	{
 					type: String,
 					required: [true, "Username is required"],
 					trim: true,
@@ -79,7 +84,7 @@ var userSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // applying the uniqueValidator plugin to userSchema
-mongoose.plugin(uniqueValidator, { message: "custom error message goes here" });
+mongoose.plugin(uniqueValidator, { message: "'{VALUE}' is already taken. Use another {PATH}!" });
 
 // custom method: hashing a password
 userSchema.methods.generateHash = function(password) {

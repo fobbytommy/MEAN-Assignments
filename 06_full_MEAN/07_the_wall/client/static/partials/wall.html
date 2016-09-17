@@ -9,13 +9,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">The Wall</a>
+          <a class="navbar-brand" href="#">Full MEAN Wall</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="#">Write a Post</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+			 <li class="navbar-brand">Welcome {{ username }}!</li>
             <li><a href="#" ng-click="logout()">Sign Out</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -26,13 +27,48 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Navbar example</h1>
-        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-        <p>To see the difference between static and fixed top navbars, just scroll.</p>
-        <p>
-          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
-        </p>
+        <h3>Create a new Post:</h3>
+        <form ng-submit="create_post()">
+			<div ng-if="postError">
+				<div ng-repeat="error in postError" class="alert alert-danger fade in">
+				    <strong>Error!</strong> {{ error.message }}
+				</div>
+			</div>
+        	<textarea class="form-control" rows="5" ng-model="newPost.post"></textarea>
+			<button class="btn btn-success btn-block" type="submit">Click to add a new post</button>
+        </form>
       </div>
+
+	  <div class="main_content">
+		  <div class="posts" ng-repeat="post in posts | orderBy:'-createdAt' track by $index">
+
+			  <div class="post">
+				  <h4><strong>{{ post.username }}</strong> - {{ post.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+    			  <h2><small>{{ post.post }}</small></h2>
+			  </div>
+
+
+			  <div class="comments">
+				  <div class="comment" ng-repeat="comment in post._comments">
+					<h4><strong>{{ comment.username }}</strong> - {{ comment.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+					<h2><small>{{ comment.comment }}</small></h2>
+				</div>
+				<button class="btn btn-lg btn-info btn-block comment_button" type="submit" ng-click="comment_form = !comment_form" ng-hide="comment_form">Click to add a new comment!</button>
+				<form class="comment_form" ng-submit="create_comment($index)" ng-show="comment_form">
+				  <div ng-if="commentError">
+					  <div ng-repeat="error in commentError" class="alert alert-danger fade in">
+						  <strong>Error!</strong> {{ error.message }}
+					  </div>
+				  </div>
+				  <textarea class="form-control" rows="5" ng-model="post.newComment"></textarea>
+				  <button class="btn btn-sm btn-info btn-block" type="submit">Click to add a new comment</button>
+				</form>
+			  </div>
+
+
+		  </div>
+
+	  </div>
 
     </div> <!-- /container -->
 </div>
