@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt'); // require bcrypt to compare login password
 var User = mongoose.model('User');
 
 function UsersController() {
@@ -40,25 +40,20 @@ function UsersController() {
 						first_name: req.body.first_name,
 						last_name: req.body.last_name,
 						username: req.body.username, // literal username with Caps (just how client typed)
-						username_lowercase: req.body.username, // for finding username and verification purpose
+						username_lowercase: req.body.username, // for finding username for login and verification purposes
 						password: req.body.password
 					});
 
 		user.save( function(err, user) {
-			if (err) {
+			if (err) { // if err, the validations failed. return the validation errors
 				console.log("[Register: ERROR] failed to create a new user: ", err);
 				res.json({ errors: err.errors });
 			}
-			else {
+			else { // else the registration is completed
 				console.log("[Register: SUCCESS] successfully created a new user!");
 				res.json( user );
 			}
-		})
-
-	}
-
-	this.show = function(req, res) {
-
+		});
 	}
 
 }

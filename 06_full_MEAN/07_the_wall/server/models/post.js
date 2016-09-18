@@ -17,12 +17,12 @@ var postSchema = new mongoose.Schema({
 				maxlength: [799, "Your post is too long! Please write less than 800 characters!"],
 			},
 	// post can have many comments. (one-to-many relationship)
-	_comments: 	[{	type: Schema.Types.ObjectId, ref: 'Comment'	}]
+	_comments: 	[{	type: Schema.Types.ObjectId, ref: 'Comment'	}] // note the array
 }, { timestamps: true });
 
 // comment model
 var commentSchema = new mongoose.Schema({
-	_post: {type: Schema.Types.ObjectId, ref: 'Post'},
+	_post: {type: Schema.Types.ObjectId, ref: 'Post'}, // note no array, since a comment can belong to a single post.
 	username: 	{
 					type: String,
 				},

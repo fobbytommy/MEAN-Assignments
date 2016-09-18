@@ -1,19 +1,26 @@
 <div class="login_reg_body">
 	<div class="container">
 		<h2 class="form-signin-heading">Please sign in</h2>
+
 		<form class="form-signin" ng-submit="login()">
+			<!-- displaying login errors if there are any. -->
 			<div ng-if="loginError">
 				<div class="alert alert-danger fade in">
-				    <strong>Error!</strong> {{ loginError }}
+					<strong>Error!</strong> {{ loginError }}
 				</div>
 			</div>
+
 			<label for="username" class="sr-only">Username</label>
 			<input type="text" id="usernmae" class="form-control" placeholder="Username" required autofocus ng-model="loginUser.username">
+
 			<label for="password" class="sr-only">Password</label>
 			<input type="password" id="password" class="form-control" placeholder="Password" required ng-model="loginUser.password">
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-		</form>
 
-		<h4>Don't have an account? <a href="#/register">Click</a> to register!</h4>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+
+		</form><!-- end of login form -->
+
+	<h4>Don't have an account? <a href="#/register">Click</a> to register!</h4>
+
 	</div>
 </div>

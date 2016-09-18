@@ -58,7 +58,7 @@ var userSchema = new mongoose.Schema({
 					maxlength: [19, "Username, '{VALUE}', is too long! Maximum length is 19 characters!"],
 					validate: {
 						validator: function(username) {
-							return /^[a-zA-Z0-9_]+$/.test(username);
+							return /^[a-zA-Z0-9_]+$/.test(username); // ^\w+$ is broarder.
 						},
 						message: "'{VALUE}' is not a valid username. Only pure alphabets, numbers, and underscores (_) can be used."
 					}

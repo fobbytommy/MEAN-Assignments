@@ -1,12 +1,15 @@
 <div class="login_reg_body">
 	<div class="container">
 		<h2 class="form-signin-heading">Register to see the wall!</h2>
+
 		<form class="form-signin" ng-submit="register()">
+			<!-- displaying registration errors if there are any. -->
 			<div ng-if="registerErrors" id="registerErrorsDiv">
 				<div ng-repeat="error in registerErrors" class="alert alert-danger fade in registerErrors">
 				    <strong>Error!</strong> {{ error.message }}
 				</div>
 			</div>
+
 			<p>
 				<label for="email">Email Address</label>
 				<input type="text" id="email" class="form-control" placeholder="tommy@dojo.com" autofocus ng-model="newUser.email">
@@ -21,8 +24,8 @@
 				<label for="username">Username</label>
 				<input type="text" id="username" class="form-control" ng-model="newUser.username" placeholder="Username">
 			</p>
+			<!-- displaying passwords not matching error -->
 			<div ng-if="match_fail" class="alert alert-danger fade in registerErrors">
-		    	<!-- <a href="#" class="close" data-dismiss="alert">&times;</a> -->
 		    	<strong>Error!</strong> {{ match_fail }}
 			</div>
 			<p>
@@ -31,8 +34,9 @@
 				<label for="confirm_password" class="sr-only">Confirm Password</label>
 				<input type="password" id="confirm_password" class="form-control" placeholder="Confirm password" ng-model="newUser.confirm_password">
 			</p>
+			
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Click to Register</button>
-		</form>
+		</form><!-- end of registration form -->
 
 		<h4>Already have an account? <a href="#/login">Click</a> to login!</h4>
 	</div>
