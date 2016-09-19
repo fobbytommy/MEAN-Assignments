@@ -1,0 +1,78 @@
+<div class="main_body">
+	<!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/dashboard">Discussion Board</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/dashboard">Dashboard</a></li>
+            <li><a href="#" ng-click="logout()">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+		<!-- contains topic (creator, topic, and description) of the page -->
+		<div class="jumbotron" id="topic_block">
+			<h3><a href="#/user/{{ topic.username }}">{{ topic.username }}</a> posted a topic:</h3>
+			<h4><b>{{ topic.topic }}</b></h4>
+			<h4>Description: {{ topic.description }}</h4>
+		</div>
+
+		<!-- contains new post form -->
+		<div class="jumbotron">
+			<h4>Post your answer here...</h4>
+			<form ng-submit="create_post(topic._id)">
+				<div ng-if="postError">
+					<div ng-repeat="error in postError" class="alert alert-danger fade in">
+						<strong>Error!</strong> {{ error.message }}
+					</div>
+				</div>
+				<textarea class="form-control" rows="5" ng-model="newPost.post"></textarea>
+				<button class="btn btn-success btn-block" type="submit">Click to add a new post</button>
+			</form>
+		</div>
+
+		<div class="main_content">
+			<div class="posts" ng-repeat="post in posts | orderBy:'-createdAt' track by $index">
+
+				<div class="post">
+					<h4><strong><a href="#/user/{{ post.username }}">{{ post.username }}</a></strong> - {{ post.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+					<h2><small>{{ post.post }}</small></h2>
+					<h4><button class="btn btn-primary btn-xs" ng-click="like_post($index)">Like</button> <span class="like_number">{{ post.like}}</span></h4>
+					<h4><button class="btn btn-danger btn-xs" ng-click="dislike_post($index)">Dislike</button> <span class="dislike_number">{{ post.dislike}}</span></h4>
+				</div>
+
+				<div class="comments">
+					<div class="comment" ng-repeat="comment in post._comments">
+						<h4><strong><a href="#/user/{{ comment.username }}">{{ comment.username }}</a></strong> - {{ comment.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+						<h2><small>{{ comment.comment }}</small></h2>
+					</div>
+
+					<button class="btn btn-lg btn-info btn-block comment_button" type="submit" ng-click="comment_form = !comment_form" ng-hide="comment_form">Click to add a new comment!</button>
+
+					<!-- comment form -->
+					<form class="comment_form" ng-submit="create_comment($index)" ng-show="comment_form">
+						<div ng-if="commentError">
+							<div ng-repeat="error in commentError" class="alert alert-danger fade in">
+								<strong>Error!</strong> {{ error.message }}
+							</div>
+						</div>
+						<textarea class="form-control" rows="5" ng-model="post.newComment"></textarea>
+						<button class="btn btn-sm btn-info btn-block" type="submit">Click to add a new comment</button>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div> <!-- /container -->
+</div>

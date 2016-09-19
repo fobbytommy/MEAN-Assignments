@@ -7,7 +7,7 @@ var express 	= require('express'),
 
 app.use(express.static(path.join(root, "client")));
 app.use(express.static(path.join(root, "bower_components")));
-app.use(bodyParser.urlencoded({ extended: true });
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 require('./server/config/mongoose');

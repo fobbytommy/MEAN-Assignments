@@ -1,0 +1,22 @@
+<div class="login_username">
+	<div class="container">
+		<h2 class="form-signin-heading text-center">Hello!</h2>
+		<h3 class="text-center">Please enter your username to join and share your ideas!</h3>
+
+		<form class="form-signin" ng-submit="login()">
+			<!-- displaying login errors if there are any. -->
+			<div class="loginError" ng-if="loginError">
+				<div ng-repeat="error in loginError" class="alert alert-danger fade in">
+					<strong>Error!</strong> {{ error.message }}
+				</div>
+			</div>
+
+			<label for="username" class="sr-only">Username</label>
+			<input type="text" id="username" class="form-control" placeholder="Username" autofocus ng-model="loginUser.username">
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Enter</button>
+
+		</form><!-- end of login form -->
+
+	</div>
+</div>

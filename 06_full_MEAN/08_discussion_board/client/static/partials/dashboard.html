@@ -1,0 +1,102 @@
+<div class="main_body">
+	<!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/dashboard">Discussion Board</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#/user/{{ username }}">User Profile</a></li>
+            <li><a href="#" ng-click="logout()">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+		<h3>Welcome, {{ username }}!</h3>
+
+		<div class="main_content_topic">
+			<div class="row">
+				<div class="col-lg-4 col-md-5">
+					<input type="text" class="form-control" placeholder="search topics here..."  ng-model="search.topic">
+				</div>
+			</div>
+			<div class="row">
+				<div class="">
+					<table class="table table-hover table-condensed table-responsive">
+						<thead>
+							<tr>
+								<th class="warning">Category</th>
+								<th class="danger">Topic</th>
+								<th class="info">User Name</th>
+								<th class="success">Posts</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="topic in topics | orderBy:'-createdAt'  | filter:search">
+								<td>{{ topic.category }}</td>
+								<td><a href="#/topic/{{ topic._id }}">{{ topic.topic }}</a></td>
+								<td>{{ topic.username }}</td>
+								<td>{{ topic._topic_posts.length }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-7 col-md-8">
+					<form class="form-horizontal" ng-submit="create_topic()">
+
+						<!-- displaying login errors if there are any. -->
+						<div ng-if="topicErrors">
+							<div ng-repeat="error in topicErrors" class="alert alert-danger fade in topicErrors">
+								<strong>Error!</strong> {{ error.message }}
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="topic" class="col-sm-2 control-label">Topic</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="topic" placeholder="Topic" ng-model="newTopic.topic">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-2 control-label">Description</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="6" id="description" placeholder="Write a brief description of your topic..."  ng-model="newTopic.description"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="category" class="col-sm-2 control-label">Category</label>
+							<div class="col-sm-10">
+								<select class="form-control" id="category"  ng-model="newTopic.category" ng-init="newTopic.category = 'Web Fundamentals'">
+								  <option>Web Fundamentals</option>
+								  <option>Python</option>
+								  <option>MEAN</option>
+								  <option>Ruby on Rails</option>
+								  <option>General</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Add a Topic</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+    </div> <!-- /container -->
+</div>
