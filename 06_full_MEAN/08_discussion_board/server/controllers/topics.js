@@ -4,23 +4,20 @@ var Post = mongoose.model('Post');
 
 function TopicController() {
 
+	// controls retrieving all the topics for the dashboard page
 	this.index = function(req, res) {
 		Topic.find({}, function(err, topics) {
 			if (err) {
 				console.log("[index(topics): ERROR] could not retrieve the topics form the DB: ", err);
 			}
-			else {
+			else { // even if the topics is null (empty), send it. shouldn't matter.
 				res.json( topics );
 			}
 		});
 	}
 
+	// controls the creation of a new topic
 	this.create_topic = function(req, res) {
-		// console.log(req.body.username);
-		// console.log(req.body.topic);
-		// console.log(req.body.description);
-		// console.log(req.body.category);
-
 		var topic = new Topic( req.body );
 
 		topic.save( function(err, topic) {
@@ -37,10 +34,12 @@ function TopicController() {
 		});
 	}
 
+	// controls the retrieval of a single topic based on given _id
 	this.single_topic = function(req, res) {
-		console.log(req.params.id);
+
 		Topic.findOne({ _id: req.params.id }, function(err, topic) {
 			if (topic == null) { // if null, there is no topic associated with the _id.
+				console.log("[single_topic: ERROR] failed to retrieve a topic from the DB!");
 				res.json({errors: "The topic for the id was not found"});
 			}
 			else {
@@ -51,6 +50,5 @@ function TopicController() {
 	}
 
 }
-
 
 module.exports = new TopicController();

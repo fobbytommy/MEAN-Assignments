@@ -21,6 +21,7 @@ var topicSchema = new mongoose.Schema({
 	category: 	{
 					type: String
 				},
+	// one way assocation to just store the post's '_id' 
 	_topic_posts: [{
 				type: Schema.Types.ObjectId,
 				ref: "Post"

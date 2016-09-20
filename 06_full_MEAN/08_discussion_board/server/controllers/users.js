@@ -6,6 +6,7 @@ var Topic = mongoose.model('Topic');
 
 function UserController(){
 
+	// controls the login and/or creation of a new username
 	this.login = function(req, res) {
 		// store username from the form
 		var username = req.body.username;
@@ -37,6 +38,8 @@ function UserController(){
 		});
 	}
 
+	// controls getting the total numbers of the topic, post, and comment
+	// made by a single username
 	this.profileData = function(req, res) {
 		var username = req.params.username;
 		var count_data = {
@@ -46,21 +49,18 @@ function UserController(){
 		};
 
 		Topic.count({ username: username }, function(err, count) {
-			count_data.topic = count;
+			count_data.topic = count; // update the topic's count
 			// console.log(count_data);
-
 		});
 		Post.count({ username: username }, function(err, count) {
-			count_data.post = count;
+			count_data.post = count; // update the post's count
 			// console.log(count_data);
-
 		});
 		Comment.count({ username: username }, function(err, count) {
-			count_data.comment = count;
+			count_data.comment = count; // update the comment's count
 			// console.log(count_data);
-			res.json(count_data);
+			res.json(count_data); // send the information back to the factory.
 		});
-
 	}
 
 }

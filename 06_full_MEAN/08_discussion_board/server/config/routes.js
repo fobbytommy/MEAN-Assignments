@@ -2,7 +2,9 @@ var users = require('./../controllers/users');
 var topics = require('./../controllers/topics');
 var posts = require('./../controllers/posts');
 
+// routes.js is required by the 'server.js'
 module.exports = function(app) {
+	// for Login page
 	app.post('/user', users.login); // login route
 
 	// for Dashboard page
