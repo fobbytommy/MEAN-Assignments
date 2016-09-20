@@ -61,10 +61,95 @@ textarea {
 }
 #topic_block {
 	background-color: #f2e6ff;
+	padding: 30px 40px;
+	margin-bottom: 10px;
 }
 .like_number {
 	color: green;
 }
 .dislike_number {
 	color: red;
+}
+.welcome {
+	background-color: #ccd9ff;
+	display: inline-block;
+	padding-bottom: 7px;
+	border-radius: 5px;
+}
+.main_content_topic {
+	background-color: #ffe6e6;
+	padding: 10px 20px;
+	border-radius: 10px;
+}
+.topic_table {
+	background-color: #e0ebeb;
+	border: 1px solid #800000;
+}
+.search_topic {
+	margin-bottom: 10px;
+}
+.topic_form_div {
+	background-color: #e6ccff;
+	border-radius: 10px;
+	padding: 20px 0 5px 0px;
+	margin: 15px 0px 7px 0px;
+}
+#new_post_block {
+	padding: 15px 50px 25px 50px;
+	background-color: #ffcccc;
+	margin-bottom: 10px;
+}
+.posts {
+	background-color: #ffcccc;
+	word-wrap: break-word;
+	border-radius: 5px;
+	padding: 15px;
+	margin-bottom: 10px;
+}
+.comments {
+	margin-left: 110px;
+}
+.comment {
+	background-color: #ccffcc;
+	padding: 15px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+.post {
+	background-color: #ccccff;
+	padding: 15px;
+	border-radius: 7px;
+	margin-bottom: 10px;
+}
+.comment_button {
+	padding-top: 59px;
+	padding-bottom: 59px;
+}
+.button_like, .button_dislike {
+	display: inline-block;
+}
+.post h2 {
+	margin-top: 0;
+}
+#profile_data {
+	padding: 30px;
+}
+.profile_title {
+	background-color: #f2d9d9;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	border-radius: 40px;
+}
+.profile_username {
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: #ccd9ff;
+	display: inline-block;
+}
+.profile_count {
+	margin-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 20px;
+	background-color: #ccd9ff;
 }

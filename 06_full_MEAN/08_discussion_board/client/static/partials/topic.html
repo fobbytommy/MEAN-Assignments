@@ -23,13 +23,15 @@
     <div class="container">
 		<!-- contains topic (creator, topic, and description) of the page -->
 		<div class="jumbotron" id="topic_block">
-			<h3><a href="#/user/{{ topic.username }}">{{ topic.username }}</a> posted a topic:</h3>
-			<h4><b>{{ topic.topic }}</b></h4>
-			<h4>Description: {{ topic.description }}</h4>
+			<fieldset>
+				<legend><h3><a href="#/user/{{ topic.username }}">{{ topic.username }}</a> posted a topic <small>{{ topic.createdAt | date:"h:mm a M/d/yy" }}</small></h3></legend>
+				<h4><b>{{ topic.topic }}</b></h4>
+				<h4>{{ topic.description }}</h4>
+			</fieldset>
 		</div>
 
 		<!-- contains new post form -->
-		<div class="jumbotron">
+		<div class="jumbotron" id="new_post_block">
 			<h4>Post your answer here...</h4>
 			<form ng-submit="create_post(topic._id)">
 				<div ng-if="postError">
@@ -46,19 +48,19 @@
 			<div class="posts" ng-repeat="post in posts | orderBy:'-createdAt' track by $index">
 
 				<div class="post">
-					<h4><strong><a href="#/user/{{ post.username }}">{{ post.username }}</a></strong> - {{ post.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+					<h4><strong><a href="#/user/{{ post.username }}">{{ post.username }}</a></strong> <small>{{ post.updatedAt | date:"h:mm a M/d/yy" }}</small></h4>
+					<h4 class="button_like"><button class="btn btn-primary btn-xs" ng-click="like_post($index)">Like</button> <span class="like_number">{{ post.like}}</span></h4>
+					<h4 class="button_dislike"><button class="btn btn-danger btn-xs" ng-click="dislike_post($index)">Dislike</button> <span class="dislike_number">{{ post.dislike}}</span></h4>
 					<h2><small>{{ post.post }}</small></h2>
-					<h4><button class="btn btn-primary btn-xs" ng-click="like_post($index)">Like</button> <span class="like_number">{{ post.like}}</span></h4>
-					<h4><button class="btn btn-danger btn-xs" ng-click="dislike_post($index)">Dislike</button> <span class="dislike_number">{{ post.dislike}}</span></h4>
 				</div>
 
 				<div class="comments">
 					<div class="comment" ng-repeat="comment in post._comments">
-						<h4><strong><a href="#/user/{{ comment.username }}">{{ comment.username }}</a></strong> - {{ comment.updatedAt | date:"h:mm a M/d/yy" }}</h4>
+						<h4><strong><a href="#/user/{{ comment.username }}">{{ comment.username }}</a></strong> <small>{{ comment.updatedAt | date:"h:mm a M/d/yy" }}</small></h4>
 						<h2><small>{{ comment.comment }}</small></h2>
 					</div>
 
-					<button class="btn btn-lg btn-info btn-block comment_button" type="submit" ng-click="comment_form = !comment_form" ng-hide="comment_form">Click to add a new comment!</button>
+					<button class="btn btn-lg btn-info btn-block comment_button" type="submit" ng-click="comment_form = !comment_form" ng-hide="comment_form">Click to comment!</button>
 
 					<!-- comment form -->
 					<form class="comment_form" ng-submit="create_comment($index)" ng-show="comment_form">

@@ -142,7 +142,7 @@
 					}
 
 					this.create_post = function(topic_id, username, newPost, callback) {
-						newPost.username = username;
+						newPost["username"] = username;
 						$http.post('/post/' + topic_id, newPost).then(
 							function success(response) {
 								if (typeof(response.data.errors) != 'undefined') {

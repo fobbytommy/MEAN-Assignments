@@ -9,7 +9,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#/dashboard">Discussion Board</a>
+          <a class="navbar-brand" href="#">Discussion Board</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -22,47 +22,50 @@
 
     <div class="container">
 
-		<h3>Welcome, {{ username }}!</h3>
+		<div class="row welcome">
+			<div class="col-lg-12">
+				<h3>Welcome, {{ username }}!</h3>
+			</div>
+		</div>
 
 		<div class="main_content_topic">
-			<div class="row">
+
+			<div class="row search_topic">
 				<div class="col-lg-4 col-md-5">
 					<input type="text" class="form-control" placeholder="search topics here..."  ng-model="search.topic">
 				</div>
 			</div>
-			<div class="row">
-				<div class="">
-					<table class="table table-hover table-condensed table-responsive">
-						<thead>
-							<tr>
-								<th class="warning">Category</th>
-								<th class="danger">Topic</th>
-								<th class="info">User Name</th>
-								<th class="success">Posts</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="topic in topics | orderBy:'-createdAt'  | filter:search">
-								<td>{{ topic.category }}</td>
-								<td><a href="#/topic/{{ topic._id }}">{{ topic.topic }}</a></td>
-								<td>{{ topic.username }}</td>
-								<td>{{ topic._topic_posts.length }}</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="row">
+
+			<div class="row topic_table">
+				<table class="table table-hover table-condensed table-responsive">
+					<thead>
+						<tr>
+							<th class="warning">Category</th>
+							<th class="danger">Topic</th>
+							<th class="info">User Name</th>
+							<th class="success">Posts</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="topic in topics | orderBy:'-createdAt'  | filter:search">
+							<td>{{ topic.category }}</td>
+							<td><a href="#/topic/{{ topic._id }}">{{ topic.topic }}</a></td>
+							<td><a href="#/user/{{ topic.username }}">{{ topic.username }}</a></td>
+							<td>{{ topic._topic_posts.length }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div><!-- End of topic table div -->
+
+			<div class="row topic_form_div">
 				<div class="col-lg-7 col-md-8">
 					<form class="form-horizontal" ng-submit="create_topic()">
-
-						<!-- displaying login errors if there are any. -->
+						<!-- displaying topic errors if there are any. -->
 						<div ng-if="topicErrors">
 							<div ng-repeat="error in topicErrors" class="alert alert-danger fade in topicErrors">
 								<strong>Error!</strong> {{ error.message }}
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label for="topic" class="col-sm-2 control-label">Topic</label>
 							<div class="col-sm-10">
@@ -87,7 +90,6 @@
 								</select>
 							</div>
 						</div>
-
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<button type="submit" class="btn btn-default">Add a Topic</button>
@@ -95,8 +97,10 @@
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
+
+			</div><!-- end of topic_form_div -->
+
+		</div><!-- end of main_content_topic -->
 
     </div> <!-- /container -->
 </div>
